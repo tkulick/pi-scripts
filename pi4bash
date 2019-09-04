@@ -1,0 +1,39 @@
+    for i in "${!logo[@]}"; do
+        out+="  ${logo[$i]}  "
+        case "$i" in
+            0)
+                out+="${fggrn}$(date +"%A, %e %B %Y, %r")"
+                ;;
+            1)
+                out+="${fggrn}$(uname -srmo)"
+                ;;
+            3)
+                out+="${fgylw}${df_out[0]}"
+                ;;
+            4)
+                out+="${fgwht}${df_out[1]}"
+                ;;
+            5)
+                out+="${fgred}Uptime.............: ${UPTIME}"
+                ;;
+            6)
+                out+="${fgred}Memory.............: $(free -h | grep Mem: | awk {'print $4'}) (Free) / $(free -h | grep Mem: | awk {'print $2'}) (Total)"
+                ;;
+            7)
+                out+="${fgred}Running Processes..: $(ps ax | wc -l | tr -d " ")"
+                ;;
+            8)
+                out+="${fgred}IP Address.........: $(ip -f inet addr show dev wlan0 | sed -n 's/^ *inet *\([.0-9]*\).*/\1/p')"
+                ;;
+            9)
+                out+="Temperature........: CPU: $cpuTempC°C/$cpuTempF°F GPU: $gpuTempC°C/$gpuTempF°F"
+                ;;
+            10)
+                out+="${fgwht}The RetroPie Project, https://retropie.org.uk"
+                ;;
+        esac
+
+        out+="\n"
+    done
+
+    echo -e "\n$out"
